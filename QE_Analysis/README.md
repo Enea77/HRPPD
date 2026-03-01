@@ -1,7 +1,7 @@
 # Quantum Efficiency (QE) Analysis Pipeline
 
 ## Overview
-[cite_start]This module contains the C++ and ROOT-based analysis pipeline used to characterize the Quantum Efficiency (QE) of Large Area Picosecond Photodetectors (HRPPDs)[cite: 19, 20]. [cite_start]It processes raw hardware telemetry from Keithley instruments, isolates the true signal from background leakage current, and generates spatial efficiency maps[cite: 21].
+This module contains the C++ and ROOT-based analysis pipeline used to characterize the Quantum Efficiency (QE) of Large Area Picosecond Photodetectors (HRPPDs). It processes raw hardware telemetry from Keithley instruments, isolates the true signal from background leakage current, and generates spatial efficiency maps.
 
 ## Analysis Workflow
 
@@ -35,8 +35,6 @@ The scripts then plot the final fits, residuals, and the resulting QE measuremen
 ![QE Baseline](figures/QE_Baseline_Measurement.png)
 *Figure: Baseline Quantum Efficiency measurement extracted from the corrected signal.*
 
-![QE 2D Map](figures/QE_2D_Spatial_Map_Comparison.png)
-*Figure: 2D Spatial Map demonstrating the calculated Quantum Efficiency across the detector surface.*
 
 ## Usage
 To run the full spatial scan analysis via the command line:
