@@ -1,44 +1,24 @@
-# HRPPD Photocathode Characterization Pipeline
+# HRPPD Photocathode Aging & Characterization Pipeline
 
 ## Overview
-This repository contains a C++ and ROOT-based analysis pipeline developed for the HRPPD Photocathode Aging & Characterization Study. The codebase is designed to process raw hardware outputs, isolate signal from background noise, and accurately map Quantum Efficiency (QE) and Photon Detection Efficiency (PDE) across Large Area Picosecond Photodetectors. 
+[cite_start]This repository contains the hardware control and data analysis pipeline developed for the HRPPD Photocathode Aging & Characterization Study[cite: 19]. 
 
-This specific pipeline parses hardware telemetry (Keithley output files) to monitor degradation and validate detector longevity under high-photon exposure.
+[cite_start]Large Area Picosecond Photodetectors (HRPPDs) require rigorous validation for use in future collider applications[cite: 22]. [cite_start]The code in this repository was engineered to precisely characterize these detectors, isolate signals from background noise, and monitor performance degradation over high-photon exposure[cite: 21, 22]. 
+
+The project bridges physical hardware automation with high-level data processing and mathematical fitting.
 
 ## Repository Structure
-* `/QE_Analysis`: Scripts for extracting and calculating Quantum Efficiency from hardware measurements.
-* `/PDE_Analysis`: (Coming soon) Scripts for quantifying single-pixel photon detection efficiency.
-* `/data`: (Directory for sample raw `.txt` or `.csv` outputs from the Keithley instruments).
 
-## QE Analysis Pipeline
+This repository is modularized into three core components:
 
-The Quantum Efficiency pipeline is broken down into modular parsing and fitting scripts. 
+* [cite_start]**[`/Hardware_Control`](Hardware_Control/)**: Contains Python scripts used to engineer an automated optics scanning system[cite: 20]. [cite_start]This software directly interfaces with physical hardware to precisely control LED triggers and position stages during data acquisition[cite: 20].
+* [cite_start]**[`/QE_Analysis`](QE_Analysis/)**: A C++ and ROOT-based pipeline designed to map Quantum Efficiency (QE) across the detector cathode[cite: 21]. [cite_start]It processes raw hardware telemetry (e.g., Keithley instruments) and applies mathematical fits to isolate the true photon signal from background leakage current[cite: 21].
+* [cite_start]**[`/PDE_Analysis`](PDE_Analysis/)**: An analysis suite dedicated to quantifying single-pixel Photon Detection Efficiency (PDE)[cite: 22]. It batch-processes digitized waveforms to compare Analog-to-Digital (ADC) peaks against trigger counts, generating precise spatial performance profiles.
 
-### 1. Spatial QE Mapping (`ReadQEscanXY` & `PlotQEscanXY`)
-Used for generating 2D distributions of photocurrents across the detector surface.
+## Technologies & Frameworks
+* [cite_start]**Languages:** C++, Python [cite: 12]
+* [cite_start]**Data Analysis:** ROOT (CERN) [cite: 12]
+* [cite_start]**Hardware Integration:** Zaber position stages, LED triggers, Keithley electrometers, waveform digitizers[cite: 20].
 
-* **`ReadQEscanXY.cpp`**: Parses raw output files from Keithley instruments. It sorts the telemetry into MCP current, MCP leak current, and PD (Photodiode) current, outputting a `.root` file with 2D distributions stored as `TGraphs`.
-* **`PlotQEscanXY.c`**: Ingests the `TGraphs`. It performs automated fitting for the leakage current at every measurement interval and calculates the localized Quantum Efficiency using the following calibration:
-  
-  `QE = ((I_MCP - I_leak) / I_PD) * (CC / SR) * QE_calibrated`
-
-  It outputs the final fits, residuals, and calculated QE maps into a finalized `.root` file for visualization.
-
-### 2. Average QE Measurements (`ReadQEaverage` & `PlotQEaverage`)
-Used for bulk characterization over specific intervals.
-
-* **`ReadQEaverage.cpp`**: Similar to the scan parser, this script reads and sorts Keithley outputs (MCP current, MCP leak, PD current) for averaged intervals.
-* **`PlotQEaverage.c`**: Fits the leakage current, calculates the average QE, and plots the associated fits and residuals to validate measurement accuracy.
-
-## Prerequisites
-* **C++** * **ROOT (CERN)**: Required for data structuring (`TGraph`) and mathematical fitting algorithms.
-
-## Usage
-To execute the QE spatial scan analysis:
-```bash
-# 1. Parse the raw Keithley data
-root -l -q 'ReadQEscanXY.cpp("path/to/QE/Measurements")'
-
-# 2. Fit the data and calculate QE
-root -l -q 'PlotQEscanXY.c("output_TGraphs_file.root")'
-```
+## Navigation
+Detailed documentation, mathematical formulas, and visual output examples (such as 2D efficiency mappings and leakage current fits) are provided within the `README.md` files located in each respective sub-directory.
