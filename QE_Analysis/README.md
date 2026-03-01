@@ -45,9 +45,6 @@ The scripts then plot the final fits, residuals, and the resulting QE measuremen
 ![QE Baseline](figures/QE_Baseline_Measurement.png)
 *Figure: Baseline Quantum Efficiency measurement extracted from the corrected signal.*
 
-![QE 2D Map](figures/QE_2D_Spatial_Map_Comparison.png)
-*Figure: 2D Spatial Map demonstrating the calculated Quantum Efficiency across the detector surface.*
-
 ## Usage
 To run the full spatial scan analysis via the command line:
 
